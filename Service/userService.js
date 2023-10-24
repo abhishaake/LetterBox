@@ -7,6 +7,7 @@ import {randomBytes} from "crypto";
 export class UserService {
   constructor() {
     this.User = mongoose.model("User");
+    this.Follower = mongoose.model("Followers");
   }
 
   async getLoggedInUser({userId}){
@@ -38,7 +39,11 @@ export class UserService {
   }
 
   async getAllUser(){
-    return await this.User.find({});
+    const users = await this.User.find({});
+
+    console.log("debug check : " + typeof(users));
+
+    return users;
   }
 
   async getUserById({_id}){
@@ -69,7 +74,7 @@ export class UserService {
     }
 
     const hashedPass = await bcrypt.hash(newUser.password, 12);
-    // const id = new mongoose.Types.ObjectId();
+    // const id = new mongoose.Types.ObjectId("");
     
     const userObj = new this.User({
       ...newUser,
@@ -78,5 +83,26 @@ export class UserService {
 
     console.log("New User Obj-> ", userObj);
     return await userObj.save();
+  }
+
+  async getAllFollows(){
+    return await this.Follower.find({});
+  }
+
+  async addNewFollower(userId,followeeId){
+    const obj = new this.Follower({
+      follower: userId,
+      followee: followeeId
+    });
+
+    console.log("New Follow obj -> " + obj);
+    await obj.save();
+
+    return "SUCCESS";
+  }
+
+  async removeFollower(fID){
+    await this.Follower.deleteOne({_id:fID});
+    return "SUCCESS";
   }
 }

@@ -1,9 +1,9 @@
 
-import createCommentSchema from "./Comment";
-import createFollowersSchema from "./Followers";
-import createNotificationSchema from "./Notification";
-import createPostSchema from "./Posts";
-import createUserSchema from "./User";
+import createCommentSchema from "./Comment.js";
+import createFollowersSchema from "./Followers.js";
+import createNotificationSchema from "./Notification.js";
+import createPostSchema from "./Posts.js";
+import createUserSchema from "./User.js";
 
 function Index(){
 

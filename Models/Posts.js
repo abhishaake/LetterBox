@@ -16,11 +16,11 @@ function createPostSchema(){
             required: true
         },
         likes:{
-            type: Number,
+            type: String,
             required: true
         },
         comments:{
-            type: Number,
+            type: String,
             required: true
         }
     })

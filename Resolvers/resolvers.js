@@ -13,17 +13,23 @@ function getResolvers(){
     const resolver = {
         Query:{
 
-            getUsers:()=>{},
+            getUsers:()=>{
+                return userService.getAllUser();
+            },
             getLoggedInUser:()=>{},
             getUserById:(_,{_id})=>{},
 
-            getAllPosts:(_,{userId})=>{},
+            getAllPosts: (_,{userId})=>{
+                return postsService.getAllPosts(userId);
+            },
             getUserPosts:(_,{userId})=>{},
             getPostById:(_,{postId})=>{},
 
             getAllComments:(_,{postId})=>{},
 
-            getFollowers:(_,{userId})=>{},
+            getFollowers:(_,{userId})=>{
+                return userService.getAllFollows();
+            },
 
             getNotifications:(_,{userId})=>{},
                 
@@ -33,34 +39,7 @@ function getResolvers(){
             getUserFeed:(_,{userId})=>{},
             getPostFeed:(_,{postId})=>{},
 
-            users:async ()=>{
-                return userService.getAllUser();
-            },
-            msg:async ()=>{
-                // return postsService.getAllPosts();
-                return await Post.find({}).populate("by","_id firstName lastName email");
-            },
-            msgByUser:async (_,{_id})=>{
-                // return postsService.getAllPosts();
-                return await Post.find({by:_id}).populate("by","_id firstName lastName email");
-            },
-            userByEmail:async(_,{email})=>{
-                return userService.getUserByEmail({email});
-            },
-            userById:async(_,{_id})=>{
-                return userService.getUserById({_id});
-            },
-            loggedInUser:async(_,{},{userId})=>{
-                return userService.getLoggedInUser({userId});
-            },
-            login:(_,{email,password})=>{
-                return userService.login(email,password);
-            }
-        },
-        User:{
-            msg:(user)=>{
-                return msgs.filter(msg=>msg.by==user.id);
-            }
+            
         },
         Mutation:{
 
@@ -78,16 +57,13 @@ function getResolvers(){
 
             addComment:(_,{msg,postId})=>{},
                 
-            addFollower:(_,{followeeId})=>{},
-            removeFollower:(_,{followeeId})=>{},
-
-            user: async (_, {newUser})=>{
-                return userService.createNewUser(newUser);
+            addFollower:(_,{userId,followeeId})=>{
+                return userService.addNewFollower(userId,followeeId);
             },
-            msg:(_,{str},{userId})=>{
-                if(!userId) return "Login First";
-                return postsService.createNewPost({userId},str);
-            }
+            removeFollower:(_,{followeeId,fID})=>{
+                return userService.removeFollower(fID);
+            },
+
         }
     }
 

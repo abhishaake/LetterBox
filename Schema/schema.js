@@ -43,30 +43,30 @@ function schema (){
                 from:ID
                 msg:String
                 time:String
-                likes:Number
-                comments:Number
+                likes:String
+                comments:String
             }
 
             type Comment{
                 _id:ID
-                from:ID
+                from:String
                 msg:String
-                post:ID
+                post:String
                 time:String
             }
 
             type Follower{
                 _id:ID
-                follower:ID
-                followee:ID
+                follower:String
+                followee:String
             }
 
             type Notification{
                 _id:ID
-                from:ID
-                to:ID
-                post:ID
-                type:Number
+                from:String
+                to:String
+                post:String
+                type:String
                 msg:String
                 time:String
 
@@ -77,14 +77,14 @@ function schema (){
                 modifyUser(input:UserInput!):User
                 deleteUser(userId:ID!):String
 
-                addPost(msg:String!):Post
-                modifyPost(postId:ID!,param:Number!,inc:Number!):Post
+                addPost(msg:String!,userId:String!):Post
+                modifyPost(postId:ID!,param:String!,inc:String!):Post
                 deletePost(postId:ID!):String
 
                 addComment(msg:String!,postId:ID!):Comment
                 
-                addFollower(followeeId:ID!):String
-                removeFollower(followeeId:ID!):String
+                addFollower(followeeId:ID!,userId:String!):String
+                removeFollower(followeeId:ID!,fID:ID!):String
             }
 
             input UserInput{

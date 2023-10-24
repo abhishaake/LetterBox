@@ -16,7 +16,7 @@ function createNotificationSchema(){
                 ref: "Post"
             },
             type:{
-                type: Number,
+                type: String,
                 required: true
             },
             msg:{
